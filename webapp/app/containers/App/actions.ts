@@ -26,6 +26,7 @@ import {
   GET_SERVER_CONFIGURATIONS_SUCCESS,
   GET_SERVER_CONFIGURATIONS_FAIL,
   LOGIN,
+  THIRD_SSO_LOGIN,
   LOGGED,
   LOGIN_ERROR,
   LOGOUT,
@@ -100,6 +101,17 @@ export function login(username, password, resolve) {
     payload: {
       username,
       password,
+      resolve
+    }
+  }
+}
+
+export function thirdssologin(app: string, ticket: string, resolve) {
+  return {
+    type: THIRD_SSO_LOGIN,
+    payload: {
+      app,
+      ticket,
       resolve
     }
   }

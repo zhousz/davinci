@@ -22,6 +22,7 @@ export const GET_EXTERNAL_AUTH_PROVIDERS = 'davinci/App/GET_EXTERNAL_AUTH_PROVID
 export const GET_EXTERNAL_AUTH_PROVIDERS_SUCESS = 'davinci/App/GET_EXTERNAL_AUTH_PROVIDERS_SUCESS'
 export const TRY_EXTERNAL_AUTH = 'davinci/App/TRY_EXTERNAL_AUTH'
 export const LOGIN = 'davinci/App/LOGIN'
+export const THIRD_SSO_LOGIN = 'davinci/App/THIRD_SSO_LOGIN'
 export const LOGGED = 'davinci/App/LOGGED'
 export const LOGIN_ERROR = 'davinci/App/LOGIN_ERROR'
 export const ACTIVE = 'davinci/App/ACTIVE'

@@ -29,6 +29,7 @@ import {
 import { message } from 'antd'
 import {
   LOGIN,
+  THIRD_SSO_LOGIN,
   LOGOUT,
   CHECK_NAME,
   ACTIVE,
@@ -148,6 +149,27 @@ export function* login(action) {
     localStorage.setItem('loginUser', JSON.stringify(loginUser))
     resolve()
   } catch (err) {
+    yield put(loginError())
+    errorHandler(err)
+  }
+}
+
+export function* thirdssologin(action){
+  const { app, ticket, resolve } = action.payload 
+  try{
+    const asyncData = yield call(request, {
+      method: 'post',
+      url: api.thirdssologin,
+      data: {
+        app,
+        ticket
+      }
+    })
+
+    const loginUser = asyncData.payload
+    localStorage.setItem('loginUser', JSON.stringify(loginUser))
+    resolve()
+  }catch (err) {
     yield put(loginError())
     errorHandler(err)
   }
@@ -411,6 +433,7 @@ export default function* rootGroupSaga() {
     takeLatest(GET_EXTERNAL_AUTH_PROVIDERS, getExternalAuthProviders),
     takeEvery(TRY_EXTERNAL_AUTH, tryExternalAuth),
     takeEvery(LOGIN, login),
+    takeEvery(THIRD_SSO_LOGIN, thirdssologin),
     takeEvery(LOGOUT, logout),
     takeEvery(UPDATE_PROFILE, updateProfile),
     takeEvery(CHANGE_USER_PASSWORD, changeUserPassword as any),

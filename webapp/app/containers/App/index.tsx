@@ -26,7 +26,7 @@ import { Route, HashRouter as Router, Switch, Redirect } from 'react-router-dom'
 import { RouteComponentWithParams } from 'utils/types'
 
 import { compose } from 'redux'
-import { logged, logout, getServerConfigurations, getUserByToken } from './actions'
+import { logged, logout, getServerConfigurations, getUserByToken, thirdssologin } from './actions'
 import injectReducer from 'utils/injectReducer'
 import reducer from './reducer'
 import injectSaga from 'utils/injectSaga'
@@ -52,7 +52,8 @@ export class App extends React.PureComponent<AppProps> {
   constructor (props: AppProps) {
     super(props)
     props.onGetServerConfigurations()
-    this.checkTokenLink()
+    this.doThirdSSOLogin()
+    //this.checkTokenLink()
   }
 
   private getQs = () => {
@@ -68,6 +69,20 @@ export class App extends React.PureComponent<AppProps> {
         }, {})
     } else {
       return false
+    }
+  }
+
+  private doThirdSSOLogin = () =>{
+    const qs = this.getQs()
+    const app = qs['app'];
+    const ticket = qs['tk'];
+    if(app && ticket){
+      this.props.onThirdSSOLogin(app, ticket,()=>{
+        location.href = "./";
+        this.checkNormalLogin();
+      });
+    }else{
+      this.checkNormalLogin();
     }
   }
 
@@ -163,7 +178,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLogged: (user) => dispatch(logged(user)),
   onLogout: () => dispatch(logout()),
   onGetLoginUser: (token: string) => dispatch(getUserByToken(token)),
-  onGetServerConfigurations: () => dispatch(getServerConfigurations())
+  onGetServerConfigurations: () => dispatch(getServerConfigurations()),
+  onThirdSSOLogin: (app: string, ticket: string, resolve) => dispatch(thirdssologin(app, ticket, resolve))
 })
 
 const withConnect = connect(
