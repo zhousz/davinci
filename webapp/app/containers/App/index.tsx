@@ -78,11 +78,11 @@ export class App extends React.PureComponent<AppProps> {
     const ticket = qs['tk'];
     if(app && ticket){
       this.props.onThirdSSOLogin(app, ticket,()=>{
-        location.href = "./";
-        this.checkNormalLogin();
+        location.href = "."
+        this.checkNormalLogin()
       });
     }else{
-      this.checkNormalLogin();
+      this.checkNormalLogin()
     }
   }
 
