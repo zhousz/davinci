@@ -100,6 +100,7 @@ public class ThirdSSOLoginController {
 
         sso.id = ja.getJSONArray(0).getString(0);
         sso.name = ja.getJSONArray(0).getString(1);
+        sso.email = ja.getJSONArray(0).getString(2);
         sso.orgName = ja.getJSONArray(1).getString(0);
         sso.deptName = ja.getJSONArray(1).getString(1);
         sso.roles = ja.getJSONArray(2).toArray(new String[0]);
@@ -115,7 +116,7 @@ public class ThirdSSOLoginController {
             user.setUsername(sso.id);
             user.setName(sso.name);
             user.setPassword("<null>");
-            user.setEmail("<null>");
+            user.setEmail(sso.email);
             user.setDepartment(sso.deptName);
             user.setCreateTime(DateTime.now().toDate());
             user.setCreateBy(0L);
@@ -123,6 +124,7 @@ public class ThirdSSOLoginController {
             createUser = true;
         } else {
             if (user.getDepartment() != null && !user.getDepartment().equals(sso.deptName)) {
+                user.setEmail(sso.email);
                 user.setDepartment(sso.deptName);
                 user.setUpdateTime(DateTime.now().toDate());
                 user.setUpdateBy(0L);
@@ -198,6 +200,7 @@ public class ThirdSSOLoginController {
 
         String id;
         String name;
+        String email;
         String orgName;
         String deptName;
         String[] roles;
